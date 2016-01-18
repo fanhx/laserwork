@@ -41,6 +41,7 @@ ARCHITECTURE behavior OF cordic16_tb IS
  
     COMPONENT CORDIC16
     PORT(
+			IQ_EN : IN  std_logic;
          CLOCK : IN  std_logic;
          nRESET : IN  std_logic;
 			CORDIC_RDY: OUT  std_logic;
@@ -54,6 +55,7 @@ ARCHITECTURE behavior OF cordic16_tb IS
     
 
    --Inputs
+	signal IQ_EN : std_logic := '0';
    signal CLOCK : std_logic := '0';
    signal nRESET : std_logic := '0';
    signal CORDIC_X : std_logic_vector(15 downto 0) := (others => '0');
@@ -72,7 +74,8 @@ BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
    uut: CORDIC16 PORT MAP (
-          CLOCK => CLOCK,
+          IQ_EN => IQ_EN,
+			 CLOCK => CLOCK,
           nRESET => nRESET,
 			 CORDIC_RDY => CORDIC_RDY,
           CORDIC_X => CORDIC_X,
@@ -110,22 +113,28 @@ BEGIN
    data_proc: process
 	
 	 begin
+		IQ_EN <= '0';
 		CORDIC_X <="ZZZZZZZZZZZZZZZZ";  
       CORDIC_Y <="ZZZZZZZZZZZZZZZZ";
 		 wait for 500 ns;              --1
+		 IQ_EN <= '1';		
 		CORDIC_X <="0010111100111001";
       CORDIC_Y <="0010111100111001";
-      wait for 500 ns;               --2
+      wait for 500 ns;  
+		IQ_EN <= '1';		--2
 		CORDIC_X <="0010111100110000";
       CORDIC_Y <="0010111100111001";
 		wait for 500 ns;              --3
+		IQ_EN <= '0';	
 		CORDIC_X <="ZZZZZZZZZZZZZZZZ";
       CORDIC_Y <="ZZZZZZZZZZZZZZZZ"; 
       -- hold reset state for 100 ns.
       wait for 500 ns;	             --4
+		IQ_EN <= '1';	
 		CORDIC_X <="0010111100111000";
       CORDIC_Y <="0010111100111000";	
       wait for 500 ns;               --5
+		IQ_EN <= '0';	
 		CORDIC_X <="ZZZZZZZZZZZZZZZZ";  
       CORDIC_Y <="ZZZZZZZZZZZZZZZZ";
 		wait for 500 ns;        --6
