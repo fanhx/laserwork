@@ -116,31 +116,53 @@ BEGIN
 		IQ_EN <= '0';
 		CORDIC_X <="ZZZZZZZZZZZZZZZZ";  
       CORDIC_Y <="ZZZZZZZZZZZZZZZZ";
-		 wait for 500 ns;              --1
+		 wait for 500 ns;              
 		 IQ_EN <= '1';		
-		CORDIC_X <="0010111100111001";
+		CORDIC_X <="0010111100111001";--0¶È
+      CORDIC_Y <="0000000000000000";
+      wait for 500 ns;  
+		IQ_EN <= '1';		              -- 45¶È
+		CORDIC_X <="0010111100110000";
+      CORDIC_Y <="0010111100111000";
+		wait for 500 ns;              
+		IQ_EN <= '0';	
+		CORDIC_X <="ZZZZZZZZZZZZZZZZ";
+      CORDIC_Y <="ZZZZZZZZZZZZZZZZ"; 
+      -- hold reset state for 100 ns.
+      wait for 500 ns;	             --90¶È
+		IQ_EN <= '1';	
+		CORDIC_X <="0000000000000000";
+      CORDIC_Y <="0010111100111000";	
+      wait for 500 ns;               --
+		IQ_EN <= '0';	
+		CORDIC_X <="ZZZZZZZZZZZZZZZZ";  
+      CORDIC_Y <="ZZZZZZZZZZZZZZZZ";
+		wait for 500 ns;                 --135
+      -- insert stimulus here  IQ_EN <= '1';		
+		CORDIC_X <="1101000011000111";
       CORDIC_Y <="0010111100111001";
       wait for 500 ns;  
-		IQ_EN <= '1';		--2
-		CORDIC_X <="0010111100110000";
-      CORDIC_Y <="0010111100111001";
+		IQ_EN <= '1';	               	--180
+		CORDIC_X <="1101000011000111";
+      CORDIC_Y <="0000000000000000";
 		wait for 500 ns;              --3
 		IQ_EN <= '0';	
 		CORDIC_X <="ZZZZZZZZZZZZZZZZ";
       CORDIC_Y <="ZZZZZZZZZZZZZZZZ"; 
       -- hold reset state for 100 ns.
-      wait for 500 ns;	             --4
+      wait for 500 ns;	             --  -45
 		IQ_EN <= '1';	
 		CORDIC_X <="0010111100111000";
-      CORDIC_Y <="0010111100111000";	
-      wait for 500 ns;               --5
+      CORDIC_Y <="1101000011001000";	
+      wait for 500 ns;               --  -135
+		IQ_EN <= '1';	
+		CORDIC_X <="1101000011001000";
+      CORDIC_Y <="1101000011001000";	
+      wait for 500 ns;               --  
 		IQ_EN <= '0';	
 		CORDIC_X <="ZZZZZZZZZZZZZZZZ";  
       CORDIC_Y <="ZZZZZZZZZZZZZZZZ";
-		wait for 500 ns;        --6
-      -- insert stimulus here 
-
-      wait;
+		wait for 500 ns;        --6      wait;
    end process;
 	
 END;
